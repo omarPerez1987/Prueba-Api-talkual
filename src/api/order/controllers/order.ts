@@ -6,6 +6,7 @@ import { factories } from "@strapi/strapi";
 import { isValidPostalCode } from "../services/coverageService";
 import { updateOrder, createOrderDonate } from "../services/order";
 import { createOrderMeta } from "../../order-meta/services/order-meta";
+import { createOrderItem } from "../../order-item/services/order-item";
 
 export default factories.createCoreController(
   "api::order.order",
@@ -31,9 +32,9 @@ export default factories.createCoreController(
 
         const newOrderDonate = await createOrderDonate(order.id);
         const newOrderMeta = await createOrderMeta(order_meta, newOrderDonate);
-        // const createOrderMetaLink = await newOrderMetaLink(newOrderDonate.id, newOrderMeta.id);
+        const newOrderItem = await createOrderItem(newOrderDonate);
 
-        return { newOrderDonate, newOrderMeta };
+        return { newOrderDonate, newOrderMeta, newOrderItem };
         // return {order, updatedOrder, newOrder, order_meta, authenticatedUser};
       } catch (error) {
         console.error("Error exporting orders", error);
