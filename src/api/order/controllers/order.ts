@@ -34,8 +34,19 @@ export default factories.createCoreController(
         const newOrderMeta = await createOrderMeta(order_meta, newOrderDonate);
         const newOrderItem = await createOrderItem(newOrderDonate);
 
-        return { newOrderDonate, newOrderMeta, newOrderItem };
-        // return {order, updatedOrder, newOrder, order_meta, authenticatedUser};
+        if (newOrderDonate && newOrderMeta && newOrderItem) {
+          console.log(
+            `${newOrderMeta.shipping_firstname} su pedido se enviara en breve `
+          );
+        }
+
+        return {
+          data: {
+            newOrderDonate,
+            newOrderMeta,
+            newOrderItem,
+          },
+        };
       } catch (error) {
         console.error("Error exporting orders", error);
         return (ctx.status = 500);

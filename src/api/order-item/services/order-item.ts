@@ -5,7 +5,6 @@
 import { factories } from "@strapi/strapi";
 
 export const createOrderItem = async (newOrderDonate: any): Promise<any> => {
-  console.log(newOrderDonate);
   try {
     const newOrderItem = await strapi.entityService.create(
       "api::order-item.order-item",
@@ -13,7 +12,7 @@ export const createOrderItem = async (newOrderDonate: any): Promise<any> => {
         data: {
           order: newOrderDonate,
           quantity: 1,
-          sku: "sku_value",
+          sku: `IM ${Math.floor(Math.random() * 1000)}`,
           price: 0.0,
           ...newOrderDonate,
         },
