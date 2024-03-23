@@ -48,3 +48,25 @@ export const createOrderItemMock = jest
       };
     }
   });
+
+  export const createOrderMetaMock = jest.fn().mockImplementation(async (newOrderMetaData, newOrderDonate) => {
+    if (!newOrderMetaData || !newOrderMetaData.shipping_firstname) {
+      throw new Error(
+        "Error al crear el nuevo Order Meta: se necesita un nombre de envío"
+      );
+    }
+  
+    if (!newOrderDonate || Object.keys(newOrderDonate).length === 0) {
+      throw new Error(
+        "Error al crear el nuevo Order Meta: new OrderrDonate es requerido"
+      );
+    } else {
+      return {
+        id: Math.floor(Math.random() * 1000),
+        order: newOrderDonate,
+        shipping_postcode: newOrderMetaData.shipping_postcode,
+        shipping_firstname: newOrderMetaData.shipping_firstname,
+        ...newOrderDonate,
+      };
+    }
+  });
