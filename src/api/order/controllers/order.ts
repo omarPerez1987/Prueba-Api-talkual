@@ -14,13 +14,18 @@ export default factories.createCoreController(
     async donate(ctx): Promise<any> {
       try {
         const sanitizedQueryParams = await this.sanitizeQuery(ctx);
-        const authenticatedUser = ctx.state.user;
+        const { authenticatedUser } = ctx.state.user;
         const { order_meta } = ctx.request.body;
+
         const order = await strapi
           .service("api::order.order")
           .findOne(sanitizedQueryParams, {
             populate: ["order_items", "order_meta"],
           });
+
+        if (!order) {
+          return ctx.throw(404, "La orden especificada no fue encontrada");
+        }
 
         if (!isValidPostalCode(order_meta.shipping_postcode)) {
           return ctx.throw(400, "Código postal inválido");
