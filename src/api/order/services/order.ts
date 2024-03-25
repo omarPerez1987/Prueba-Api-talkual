@@ -23,13 +23,13 @@ export const updateOrder = async (
   }
 };
 
-export const createOrderDonate = async (orderId: number): Promise<any> => {
+export const createOrderDonate = async (order: any): Promise<any> => {
   try {
     const newOrderDonate = await strapi.entityService.create('api::order.order', {
       data: {
         status: 'processing',
         type: 'donation',
-        user: orderId,
+        user: order,
       }
     });
 
